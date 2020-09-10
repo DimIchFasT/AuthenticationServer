@@ -1,0 +1,40 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Login Customer</title>
+</head>
+<body>
+<div class="container">
+    <form class="form-signin" method="post" th:action="@{/auth/login}" action="#" th:object="${auth}">
+        <h2 class="form-signin-heading">Login</h2>
+        <p>
+            <label for="username">Username or Email</label>
+            <input type="text" th:field="*{usernameOrEmail}" id="username" name="username" class="form-control" placeholder="Username or Email" required>
+        </p>
+        <p>
+            <label for="password">Password</label>
+            <input type="password" th:field="*{password}" id="password" name="password" class="form-control" placeholder="Password" required>
+        </p>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form> <script>
+    var myForm = document.getElementsByClassName('form-signin')[0];
+    myForm.onsubmit = function sendJSON(e){
+        e.preventDefault()
+        let username = document.querySelector('#username');
+        let password = document.querySelector('#password');
+        let xhr = new XMLHttpRequest();
+        let url = "/auth/login";
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                console.log(this.responseText)
+            }
+        };
+        let data = JSON.stringify({"usernameOrEmail": username.value, "password": password.value});
+        xhr.send(data);
+    }
+</script>
+</div>
+</body>
+</html>
